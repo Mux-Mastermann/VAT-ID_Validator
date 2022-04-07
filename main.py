@@ -23,9 +23,16 @@ def home():
             #TODO
 
             # validate VAT-IDs
-            api_call_response = check_vat_id(state, vat_number)
-            app.logger.debug(f"Result of the API call for {state} and {vat_number}: {result}")
-            results.append(result)
+            api_call = check_vat_id(state, vat_number)
+            if api_call["success"]:
+                if api_call["data"]["valid"]:
+                    result = "Valid"
+                else:
+                    result = "Invalid"
+            else:
+                result = api_call["error_message"]
+            
+            results.append({"vatid": vat_id, "result": result})
 
         return render_template("index.html")
     
