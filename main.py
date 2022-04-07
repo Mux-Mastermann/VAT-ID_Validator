@@ -1,5 +1,4 @@
-# import logging
-
+import requests
 from flask import Flask, render_template, request
 
 
@@ -11,6 +10,7 @@ def home():
     if request.method == "POST":
         # get a list with each line from the textarea input
         vat_ids = request.form.get("vat_ids").split()
+        results = []
         app.logger.debug(vat_ids)
 
         # loop through VAT-IDS and validate them
@@ -19,8 +19,13 @@ def home():
             vat_number = vat_id[2:]
             app.logger.debug(f"{state}, {vat_number}")
 
-            # validate VAT-IDs
+            # validate input against API specs
             #TODO
+
+            # validate VAT-IDs
+            api_call_response = check_vat_id(state, vat_number)
+            app.logger.debug(f"Result of the API call for {state} and {vat_number}: {result}")
+            results.append(result)
 
         return render_template("index.html")
     
@@ -28,6 +33,18 @@ def home():
         # just return the homepage
         return render_template("index.html")
 
+
+def check_vat_id(state:str, vat_number: str):
+    endpoint = "https://vies-api.deta.dev/check-vat-id"
+
+    parameter = {
+        "state": state,
+        "vat_number": vat_number
+    }
+
+    response = requests.get(url=endpoint, params=parameter)
+
+    return response.json()
 
 
 if __name__ == "__main__":
