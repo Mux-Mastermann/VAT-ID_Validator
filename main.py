@@ -34,7 +34,8 @@ def home():
             
             results.append({"vatid": vat_id, "result": result})
 
-        return render_template("index.html")
+        print(results)
+        return render_template("results.html", data=results)
     
     else:
         # just return the homepage
