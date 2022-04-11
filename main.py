@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    #----------------- POST ----------------------#
     if request.method == "POST":
         # get a list with each line from the textarea input
         vat_ids = request.form.get("vat_ids").split()
@@ -24,19 +25,25 @@ def home():
 
             # validate VAT-IDs
             api_call = check_vat_id(state, vat_number)
-            if api_call["success"]:
-                if api_call["data"]["valid"]:
-                    result = "Valid"
+
+            try:
+                if api_call["success"]:
+                    if api_call["data"]["valid"]:
+                        result = "Valid"
+                    else:
+                        result = "Invalid"
                 else:
-                    result = "Invalid"
-            else:
-                result = api_call["error_message"]
-            
-            results.append({"vatid": vat_id, "result": result})
+                    result = api_call["error_message"]
+            # if key 'success' is not returned the request failed
+            except KeyError:
+                result = "Request Failed"
+            finally:
+                results.append({"vatid": vat_id, "result": result})
 
         print(results)
         return render_template("results.html", data=results)
     
+    #---------------------- GET ------------------------------#
     else:
         # just return the homepage
         return render_template("index.html")
