@@ -4,6 +4,6 @@
 
 tasks:
   - init: pipenv install
-  - command: python main.py
+  - command: pipenv run python main.py
 
 
