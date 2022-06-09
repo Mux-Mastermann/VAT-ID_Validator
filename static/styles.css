@@ -15,3 +15,13 @@
 #input-area {
     width: 30rem;
 }
+
+#output {
+    width: 30rem;
+    max-height: 50%;
+    overflow-y: auto;
+}
+
+body {
+    height: 100vh;
+}

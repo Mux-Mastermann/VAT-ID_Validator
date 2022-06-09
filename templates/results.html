@@ -1,23 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
-</head>
-<body>
-    <table>
-        <tr>
-            <th>VAT-ID</th>
-            <th>Result</th>
-        </tr>
-        {% for line in data: %}
-        <tr>
-            <td> {{ line["vatid"] }} </td>
-            <td> {{ line["result"] }} </td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %} VAT-ID Validator {% endblock %}
+
+{% block body %}
+
+<div id="output" class="card mt-4 mx-auto border-light">
+    <div class="card-header">
+        Result
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover shadow">
+            <thead>
+                <tr>
+                    <th>VAT-ID</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in data: %}
+                <tr class="table-success shadow-sm">
+                    <td> {{ line["vatid"] }} </td>
+                    <td> {{ line["result"] }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+    
+
+{% endblock %}
