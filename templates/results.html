@@ -4,6 +4,7 @@
 
 {% block body %}
 
+
 <div id="output" class="card mt-4 mx-auto border-light">
     <div class="card-header">
         Result
@@ -18,10 +19,16 @@
             </thead>
             <tbody>
                 {% for line in data: %}
-                <tr class="table-success shadow-sm">
-                    <td> {{ line["vatid"] }} </td>
-                    <td> {{ line["result"] }} </td>
-                </tr>
+                    {% if line["result"] == "Valid": %}
+                    <tr class="table-success shadow-sm">
+                    {% elif line["result"] == "Invalid": %}
+                    <tr class="table-danger shadow-sm">
+                    {% else: %}
+                    <tr class="table-warning shadow-sm">
+                    {% endif %}
+                        <td> {{ line["vatid"] }} </td>
+                        <td> {{ line["result"] }} </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
